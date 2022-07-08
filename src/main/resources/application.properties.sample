@@ -1,0 +1,9 @@
+server.port=8081
+server.error.include-message=always
+spring.application.name=vendinha
+spring.datasource.password=pass
+spring.datasource.url=jdbc:mysql://{address}/{instance}
+spring.datasource.username='{username}'
+spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.show-sql=true
+spring.datasource.hikari.maxLifeTime=600000
