@@ -7,25 +7,27 @@ import com.lideme.vendinha.repo.CartItemRepo;
 import com.lideme.vendinha.repo.CartRepo;
 import com.lideme.vendinha.repo.OrderRepo;
 import com.lideme.vendinha.repo.ProductRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Transactional
-public class CartTest {
+public class CartItemRepoTest {
     @Autowired
     OrderRepo orderRepo;
 
@@ -37,28 +39,27 @@ public class CartTest {
 
     @Autowired
     CartRepo cartRepo;
+
     @Test
     @Rollback(value = false)
-    public void createCartTest(){
+    public void createCart2Test(){
         Product product = productRepo.findByGtin("8787878787878");
         Cart cart = new Cart();
         cartRepo.save(cart);
 
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(BigDecimal.valueOf(10));
+        cart.getItems().add(new CartItem(null,cart,product,BigDecimal.ONE, LocalDateTime.now()));
 
-        cartItemRepo.save(cartItem);
+        Assertions.assertNotNull(cart.getItems());
+        Assertions.assertTrue(cart.getItems().stream().findFirst().isPresent());
+        Assertions.assertNotNull(cart.getItems().stream().findFirst().get().getProduct().getId());
+    }
 
-//        cartRepo.save(cart);
-
-
-        Cart cart2 = cartRepo.findCart(cart.getId());
-
-        System.out.println(cart2.toString());
-
-
-
+    @Test
+    public void listItensFromCartTest(){
+        //Not perfect, because need create fake data on setup
+        Cart firstCart = cartRepo.findAll(PageRequest.of(0,1)).stream().findFirst().get();
+        Assertions.assertNotNull(firstCart.getItems());
+        Assertions.assertTrue(firstCart.getItems().stream().findFirst().isPresent());
+        Assertions.assertNotNull(firstCart.getItems().stream().findFirst().get().getProduct().getId());
     }
 }

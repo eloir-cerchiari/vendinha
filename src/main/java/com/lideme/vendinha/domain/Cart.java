@@ -18,7 +18,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private Set<CartItem> items = new HashSet<>();
 
     private LocalDateTime created = LocalDateTime.now();
