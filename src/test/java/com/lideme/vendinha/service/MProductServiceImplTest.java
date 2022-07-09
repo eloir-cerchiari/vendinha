@@ -36,7 +36,6 @@ class MProductServiceImplTest {
                 "size",
                 "brand",
                 BigDecimal.valueOf(1.2)
-                ,null
         );
 
         Product product = new Product(123L,
@@ -44,8 +43,7 @@ class MProductServiceImplTest {
                 "gtin",
                 "size",
                 "brand",
-                BigDecimal.valueOf(1.2),
-                null
+                BigDecimal.valueOf(1.2)
         );
         when( productRepo.findByGtin( product.getGtin() ) )
                 .thenReturn(productToMock);
@@ -77,8 +75,7 @@ class MProductServiceImplTest {
                 "gtin",
                 "size",
                 "brand",
-                BigDecimal.valueOf(1.2),
-                null
+                BigDecimal.valueOf(1.2)
         );
         when(productRepo.findByGtin(productToMock.getGtin()))
                 .thenReturn(productToMock);
@@ -88,14 +85,13 @@ class MProductServiceImplTest {
     }
 
     @Test
-    void getProduct() {
+    void getProductById() {
         Product productToMock = new Product(123L,
                 "name",
                 "gtin",
                 "size",
                 "brand",
-                BigDecimal.valueOf(1.2),
-                null
+                BigDecimal.valueOf(1.2)
         );
         Optional<Product> optionalResultProduct = Optional.of(productToMock);
         when(productRepo.findById(productToMock.getId())).thenReturn(optionalResultProduct);
@@ -116,8 +112,7 @@ class MProductServiceImplTest {
                 "gtin",
                 "size",
                 "brand",
-                BigDecimal.valueOf(1.2),
-                null
+                BigDecimal.valueOf(1.2)
         );
 
         assertTrue(productService.removeProduct(product));

@@ -21,7 +21,7 @@ class ProductTest {
 
     @Test
     void validateAllArgsConstructor() {
-        Product product = new Product(123L,"name","gtin","size","brand", BigDecimal.valueOf(1.2),null);
+        Product product = new Product(123L,"name","gtin","size","brand", BigDecimal.valueOf(1.2));
         assertEquals(product.getId(),123L);
         assertEquals(product.getGtin(),"gtin");
         assertEquals(product.getBrand(),"brand");

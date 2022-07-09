@@ -29,8 +29,4 @@ public class Product {
 
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "product")
-    private Set<CartItem> items = new HashSet<>();
-
-
 }
