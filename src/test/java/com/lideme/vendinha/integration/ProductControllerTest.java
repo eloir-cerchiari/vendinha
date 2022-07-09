@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,5 +31,18 @@ public class ProductControllerTest {
                         .andExpect(jsonPath("$", hasSize(greaterThan(0))))
                         .andExpect(jsonPath("$[0].id").exists())
                         .andExpect(jsonPath("$[0].id").value(greaterThan(0)));
+    }
+
+
+
+    @Test
+    public void testGetFirstPageOfProductsTest() throws Exception{
+        mockMvc.perform(get("/products?page=1"))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(jsonPath("$.products", hasSize(greaterThan(0))))
+                .andExpect(jsonPath("$.products[0].id").exists())
+                .andExpect(jsonPath("$.products[0].id").value(greaterThan(0)))
+                ;
     }
 }

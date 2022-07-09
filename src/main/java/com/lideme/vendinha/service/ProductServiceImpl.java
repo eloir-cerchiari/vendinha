@@ -5,6 +5,8 @@ import com.lideme.vendinha.repo.ProductRepo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -35,6 +37,13 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> getAllProducts() {
         return this.productRepo.findAll();
+    }
+
+
+    @Override
+    public Page<Product> getAllProductsPaged(int page, int size) {
+        if(page >0 ) page -=1;
+        return this.productRepo.findAll(PageRequest.of(page,size));
     }
 
     @Override
